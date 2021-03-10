@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
 
     // Contains all the views
     private lateinit var binding: ActivityMainBinding
+    private lateinit var desertTimer: DessertTimer
 
     /** Dessert Data **/
 
@@ -71,7 +72,8 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Timber.i("onCreate Called")
+        Timber.i("onCreate called")
+
 
         // Use Data Binding to get reference to the views
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
@@ -80,10 +82,8 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
             onDessertClicked()
         }
 
-        // Setup dessertTimer, passing in the lifecycle
+        // Setup dessertTimer
         dessertTimer = DessertTimer(this.lifecycle)
-
-
         if (savedInstanceState != null) {
             revenue = savedInstanceState.getInt(KEY_REVENUE, 0)
             dessertTimer.secondsCount = savedInstanceState.getInt(KEY_TIMER, 0)
@@ -165,7 +165,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
         }
         return super.onOptionsItemSelected(item)
     }
-
+  
     override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
         outState.putInt(KEY_REVENUE, revenue)
         outState.putInt(KEY_DESERTSOLD, dessertsSold)
@@ -180,33 +180,31 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
     }
 
     /** Lifecycle Methods **/
-    override fun onStart() {
+     override fun onStart() {
         super.onStart()
+        desertTimer.startTimer()
         Timber.i("onStart Called")
     }
 
     override fun onResume() {
         super.onResume()
-        Timber.i("onResume Called")
+        Timber.i("onResume called")
     }
 
     override fun onPause() {
         super.onPause()
-        Timber.i("onPause Called")
+        Timber.i("onPause called")
     }
 
     override fun onStop() {
         super.onStop()
+        desertTimer.stopTimer()
         Timber.i("onStop Called")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Timber.i("onDestroy Called")
-    }
-
-    override fun onRestart() {
-        super.onRestart()
-        Timber.i("onRestart Called")
+        Timber.i("onDestroy called")
     }
 }
+

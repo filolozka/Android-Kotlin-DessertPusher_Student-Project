@@ -26,3 +26,4 @@ class PusherApplication : Application() {
         Timber.plant(Timber.DebugTree())
     }
 }
+
