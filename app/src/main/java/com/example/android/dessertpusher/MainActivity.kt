@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
 
     // Contains all the views
     private lateinit var binding: ActivityMainBinding
+    private lateinit var desertTimer: DessertTimer
 
     /** Dessert Data **/
 
@@ -77,19 +78,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
             onDessertClicked()
         }
 
-        // Setup dessertTimer, passing in the lifecycle
-        dessertTimer = DessertTimer(this.lifecycle)
-
-        // If there is a savedInstanceState bundle, then you're "restarting" the activity
-        // If there isn't a bundle, then it's a "fresh" start
-        if (savedInstanceState != null) {
-            // Get all the game state information from the bundle, set it
-            revenue = savedInstanceState.getInt(KEY_REVENUE, 0)
-            dessertsSold = savedInstanceState.getInt(KEY_DESSERT_SOLD, 0)
-            dessertTimer.secondsCount = savedInstanceState.getInt(KEY_TIMER_SECONDS, 0)
-            showCurrentDessert()
-
-        }
+        desertTimer = DessertTimer()
 
         // Set the TextViews to the right values
         binding.revenue = revenue
@@ -165,10 +154,12 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
         }
         return super.onOptionsItemSelected(item)
     }
-  
+/** Lifecycle Methods **/
+
     override fun onStart() {
         super.onStart()
-        Timber.i("onStart called")
+        desertTimer.startTimer()
+        Timber.i("onStart Called")
     }
 
     override fun onResume() {
@@ -183,7 +174,8 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
 
     override fun onStop() {
         super.onStop()
-        Timber.i("onStop called")
+        desertTimer.stopTimer()
+        Timber.i("onStop Called")
     }
 
     override fun onDestroy() {
