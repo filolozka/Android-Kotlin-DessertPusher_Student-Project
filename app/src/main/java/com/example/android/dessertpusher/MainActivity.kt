@@ -18,6 +18,7 @@ package com.example.android.dessertpusher
 
 import android.content.ActivityNotFoundException
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -32,6 +33,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
 
     private var revenue = 0
     private var dessertsSold = 0
+    private lateinit var dessertTimer: DessertTimer
 
     // Contains all the views
     private lateinit var binding: ActivityMainBinding
@@ -66,7 +68,8 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Timber.i("onCreate Called")
+        Timber.i("onCreate called")
+
 
         // Use Data Binding to get reference to the views
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
@@ -151,8 +154,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
         }
         return super.onOptionsItemSelected(item)
     }
-
-    /** Lifecycle Methods **/
+/** Lifecycle Methods **/
 
     override fun onStart() {
         super.onStart()
@@ -162,12 +164,12 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
 
     override fun onResume() {
         super.onResume()
-        Timber.i("onResume Called")
+        Timber.i("onResume called")
     }
 
     override fun onPause() {
         super.onPause()
-        Timber.i("onPause Called")
+        Timber.i("onPause called")
     }
 
     override fun onStop() {
@@ -178,11 +180,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
 
     override fun onDestroy() {
         super.onDestroy()
-        Timber.i("onDestroy Called")
-    }
-
-    override fun onRestart() {
-        super.onRestart()
-        Timber.i("onRestart Called")
+        Timber.i("onDestroy called")
     }
 }
+

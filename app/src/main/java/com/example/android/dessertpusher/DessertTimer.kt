@@ -35,7 +35,6 @@ import timber.log.Timber
  *
  */
 class DessertTimer {
-
     // The number of seconds counted since the timer started
     var secondsCount = 0
 
@@ -45,7 +44,6 @@ class DessertTimer {
      */
     private var handler = Handler()
     private lateinit var runnable: Runnable
-
 
     fun startTimer() {
         // Create the runnable action, which prints out a log and increments the seconds counter
