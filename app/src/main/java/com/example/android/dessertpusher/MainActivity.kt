@@ -18,7 +18,7 @@ package com.example.android.dessertpusher
 
 import android.content.ActivityNotFoundException
 import android.os.Bundle
-import android.util.Log
+import android.os.PersistableBundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -28,6 +28,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LifecycleObserver
 import com.example.android.dessertpusher.databinding.ActivityMainBinding
 import timber.log.Timber
+
+private val KEY_REVENUE = "revenue"
+private val KEY_TIMER = "timer"
+private val KEY_DESERTSOLD = "desertsold"
 
 class MainActivity : AppCompatActivity(), LifecycleObserver {
 
@@ -80,6 +84,12 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
 
         // Setup dessertTimer
         dessertTimer = DessertTimer(this.lifecycle)
+        if (savedInstanceState != null) {
+            revenue = savedInstanceState.getInt(KEY_REVENUE, 0)
+            dessertTimer.secondsCount = savedInstanceState.getInt(KEY_TIMER, 0)
+            dessertsSold = savedInstanceState.getInt(KEY_DESERTSOLD, 0)
+            showCurrentDessert()
+        }
 
         // Set the TextViews to the right values
         binding.revenue = revenue
@@ -155,7 +165,19 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
         }
         return super.onOptionsItemSelected(item)
     }
-/** Lifecycle Methods **/
+  
+    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
+        outState.putInt(KEY_REVENUE, revenue)
+        outState.putInt(KEY_DESERTSOLD, dessertsSold)
+        outState.putInt(KEY_TIMER, dessertTimer.secondsCount)
+        Timber.i("onSaveInstanceState Called")
+        super.onSaveInstanceState(outState, outPersistentState)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        Timber.i("onRestoreInstanceState Called")
+    }
 
     /** Lifecycle Methods **/
      override fun onStart() {
