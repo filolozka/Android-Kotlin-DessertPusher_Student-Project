@@ -37,7 +37,6 @@ import timber.log.Timber
  * https://developer.android.com/guide/components/processes-and-threads
  *
  */
-
 // observer relationship in an init block
 class DessertTimer(lifecycle: Lifecycle) : LifecycleObserver {
 
@@ -54,7 +53,6 @@ class DessertTimer(lifecycle: Lifecycle) : LifecycleObserver {
      */
     private var handler = Handler()
     private lateinit var runnable: Runnable
-
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun startTimer() {
